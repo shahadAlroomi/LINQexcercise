@@ -1,8 +1,10 @@
 ﻿//LINQ-ÖVNINGAR
 
-// Vi börjar med att skapa en lista med användare som innehåller 1000 slumpmässiga 
+// Vi börjar med att skapa en lista med användare som innehåller 1000 slumpmässigt genererade användare.
 // Vi kommer använda denna lista för att utföra LINQ-övningar på dem.
-List<User> users1 = User.GetRandomListOfUsers(1000);
+// Titta i User.cs för att se hur User-klassen är uppbyggd och vilka properties den har.
+
+List<User> allUsers = User.GetRandomListOfUsers(1000);
 
 // FILTERING
 
