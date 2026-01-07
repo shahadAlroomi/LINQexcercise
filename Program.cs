@@ -9,7 +9,7 @@ List<User> allUsers = User.GetRandomListOfUsers(1000);
 // FILTERING
 
 // 1a. Använd Where() för att sortera ut alla användare i listan som kommer från exempelvis "Sweden".
-// 1b. Skriv ut dem i konsolen med users1.Foreach(). Fortsätt skriva ut resultatet på liknande säät
+// 1b. Skriv ut dem i konsolen med allUsers.Foreach(). Fortsätt skriva ut resultatet på liknande säät
 // i kommande övningar också.
 
 
