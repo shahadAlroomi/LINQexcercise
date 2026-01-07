@@ -6,7 +6,7 @@ class User
     public DateTime DateOfBirth { get; set; }
     public DateTime LastLogin { get; set; }
     public string Country { get; set; } = "";
-    public int DataStored { get; set; }
+    public int DataStored { get; set; } //Syftar till mängden data användaren har lagrat i MB i en tänkt onlinetjänst.
     public string Email { get; set; } = "";
 
     public static List<User> GetRandomListOfUsers(int amount = 100)
@@ -21,7 +21,7 @@ class User
                 LastName = Faker.Name.Last(),
                 DateOfBirth = Faker.Identification.DateOfBirth(),
                 Country = Faker.Address.Country(),
-                DataStored = Faker.RandomNumber.Next(1000, 9999999),
+                DataStored = Faker.RandomNumber.Next(100, 9999999),
                 Email = Faker.Internet.Email(),
                 LastLogin = DateTime.Now - TimeSpan.FromDays(Faker.RandomNumber.Next(1, 365))
             });
