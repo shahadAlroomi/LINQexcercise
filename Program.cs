@@ -22,9 +22,13 @@ var userInSweden = allUsers.Where( user=> user.Country == "Sweden").ToList();
 // 2. Använd Where() för att hitta alla användare vars efternamn börjar på "S".
 var userNameStartWithS =allUsers.Where(n => n.LastName.StartsWith("S")).ToList();
 
-userNameStartWithS.ForEach( n => Console.WriteLine(n.LastName));
+//userNameStartWithS.ForEach( n => Console.WriteLine(n.LastName));
 
 // 2b. Bland dem, använd Where() för att hitta alla användare som loggat in den senaste veckan. Skriv ut dem i konsolen.
+var userInLastWeek = allUsers.Where(LastWeek => LastWeek.LastLogin >= DateTime.Now.AddDays(-7)).ToList();
+
+userInLastWeek.ForEach(LastWeek =>Console.WriteLine("Användare name: " + LastWeek.FullName + " som har loggat in "+ LastWeek.LastLogin));
+
 
 
 // SORTING
