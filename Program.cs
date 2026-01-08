@@ -64,9 +64,14 @@ var sortUser = allUsers.OrderBy(u => u.Country ).ThenBy(u => u.LastName).ToList(
 
 var userEmail = allUsers.Select(u => u.Email).ToList();
 
-userEmail.ForEach(email => Console.WriteLine(email));
+//userEmail.ForEach(email => Console.WriteLine(email));
 
 // 7. Använd Select() för att skapa en lista av anonyma objekt med FirstName och Email.
+
+var firstNameAndEmail = allUsers.Select(u => new {u.FirstName , u.Email}).ToList();
+
+firstNameAndEmail.ForEach(u => Console.WriteLine("Name : "+u.FirstName + " Email : " + u.Email));
+
 // LITE EXTRA KLURIG KANSKE! Hoppa över om du inte vet vad som menas. (Vad är ens anonyma objekt liksom?)
 
 // 8. Använd Where() och Select() för att få en lista med e-postadresser från användare som har lagrat mer än 5000 MB.
