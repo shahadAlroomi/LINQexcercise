@@ -4,24 +4,68 @@
 // Vi kommer använda denna lista för att utföra LINQ-övningar på dem.
 // Titta i User.cs för att se hur User-klassen är uppbyggd och vilka properties den har.
 
-List<User> allUsers = User.GetRandomListOfUsers(1000);
+List<User> allUsers = User.GetRandomListOfUsers(10000);
+
+//Använd linq för att spara användarlistnan i en csv-fil
+string csvPath = "users.csv";
+var csvLines = allUsers.Select(user =>
+    $"{user.FirstName},{user.LastName},{user.DateOfBirth},{user.LastLogin},{user.Country},{user.DataStored},{user.Email}"
+);
+File.WriteAllLines(csvPath, csvLines);
+
+//Ladda in användare från csv-filen igen
+var loadedCsvLines = File.ReadAllLines(csvPath);
+List<User> usersFromCsv = loadedCsvLines.Select(line =>
+{
+    var parts = line.Split(',');
+    return new User()
+    {
+        FirstName = parts[0],
+        LastName = parts[1],
+        DateOfBirth = DateOnly.Parse(parts[2]),
+        LastLogin = DateTime.Parse(parts[3]),
+        Country = parts[4],
+        DataStored = int.Parse(parts[5]),
+        Email = parts[6]
+    };
+}).ToList();
 
 // FILTERING
 
 // 1a. Använd Where() för att sortera ut alla användare i listan som kommer från exempelvis "Sweden".
+List<User> usersFromSweden = allUsers.Where(user => user.Country == "Sweden").ToList();
+
 // 1b. Skriv ut dem i konsolen med allUsers.Foreach(). Fortsätt skriva ut resultatet på liknande säät
 // i kommande övningar också.
-
+usersFromSweden.ForEach(user =>
+    Console.WriteLine($"{user.FullName}, {user.Country}, {user.Email}")
+);
 
 // 2. Använd Where() för att hitta alla användare vars efternamn börjar på "S".
+List<User> usersWithLastNameS = allUsers
+    .Where(user => user.LastName.StartsWith("B"))
+    .ToList();
 
 
-// 2b. Använd Where() för att hitta alla användare som loggat in den senaste veckan
+// 2b. Använd Where() för att hitta alla användare som loggat in den senaste veckan. Skriv ut dem i konsolen.
+DateTime oneWeekAgo = DateTime.Now - TimeSpan.FromDays(7);
+usersWithLastNameS
+    .Where(user => user.LastLogin >= oneWeekAgo)
+    .ToList().ForEach(user =>
+    Console.WriteLine($"{user.FullName}, Last Login: {user.LastLogin}"));
 
 
 // SORTING
 
-// 3. Använd OrderBy() för att sortera användarna i listan efter deras förnamn.
+// 3. Ta ut alla användare över 65 år och använd OrderBy() för att sortera användarna i listan efter deras förnamn.
+// Tänk på hur du kan räkna ut åldern med hjälp av DateOfBirth.
+DateTime today = DateTime.Now;
+allUsers
+    .Where(user => user.Age > 65)
+    .OrderBy(user => user.FirstName)
+    .ToList().ForEach(user =>
+    Console.WriteLine($"{user.FullName}, Age: {user.Age}"));
+
 
 
 // 4. Använd OrderByDescending() och FirstOrDefault() för att hitta den användare som har mest DataStored.
@@ -57,7 +101,12 @@ List<User> allUsers = User.GetRandomListOfUsers(1000);
 
 // SET OPERATIONS (Här bara med Distinct(), inte Union, Intersect eller Except)
 
-// 12. Använd Select() med Distinct() för att få en lista med unika länder som användarna kommer ifrån.
+// 12. Ta fram en lista på alla unika länder som våra användare kommer från.
+// Tips: Använd först Select() för att göra en ny lista med bara länder. Använd sen Distinct().
+var uniqueCountries = allUsers
+    .Select(user => user.Country)
+    .Distinct()
+    .ToList();
 
 
 // ELEMENTS
@@ -75,22 +124,28 @@ List<User> allUsers = User.GetRandomListOfUsers(1000);
 // 16. Använd Max() för att hitta det högsta värdet av DataStored.
 
 
-// 17. Använd Min() för att hitta den lägsta åldern bland användarna (Kanske lite klurig)
+// 17. Använd Min() för att hitta den lägsta åldern bland användarna
 
 
-// 18. Använd Count() för att räkna hur många användare som är födda före år 2000.
+// 18. Använd Count() för att räkna hur många användare som har den lägsta åldern, kontra hur många det är som har den högsta åldern.
 
 
 // 19. Använd Sum() för att beräkna den totala mängden lagrad data av alla användare.
 
 
-// 20. Använd Average() för att beräkna den genomsnittliga mängden lagrad data per användare.
+// 20. Använd Average() för att beräkna den genomsnittliga mängden lagrad data.
 
 
 // 21. Använd Aggregate() för att beräkna den totala mängden lagrad data av alla användare (int).
+// Tips: Aggregate använder sig av en Func<int, int, int> där det första int är ackumulatorn och det andra är värdet från varje element i listan och den sista inten är det som returneras och blir den nya ackumulatorn.
+var totalDataStored = allUsers
+    .Sum(user => user.DataStored);
 
 
 // 22. Använd Select() och Aggregate() för att sammanfoga alla användares fullständiga namn till en enda sträng.
+var allNames = allUsers
+    .Select(user => user.FullName)
+    .Aggregate((current, next) => current + ", " + next);
 
 
 // PARTITIONING
