@@ -11,8 +11,13 @@ List<User> allUsers = User.GetRandomListOfUsers(10000);
 
 // 1a. Använd Where() för att sortera ut alla användare i listan som kommer från exempelvis "Sweden".
 
+var userInSweden = allUsers.Where( user=> user.Country == "Sweden").ToList();
+
+
 // 1b. Skriv ut dem i konsolen med allUsers.Foreach(). Fortsätt skriva ut resultatet på liknande säät
 // i kommande övningar också.
+
+userInSweden.ForEach(user=> Console.WriteLine(user.FullName + " Country är :"+ user.Country));
 
 // 2. Använd Where() för att hitta alla användare vars efternamn börjar på "S".
 
