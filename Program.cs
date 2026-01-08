@@ -6,70 +6,25 @@
 
 List<User> allUsers = User.GetRandomListOfUsers(10000);
 
-//Använd linq för att spara användarlistnan i en csv-fil
-string csvPath = "users.csv";
-var csvLines = allUsers.Select(user =>
-    $"{user.FirstName},{user.LastName},{user.DateOfBirth},{user.LastLogin},{user.Country},{user.DataStored},{user.Email}"
-);
-File.WriteAllLines(csvPath, csvLines);
-
-//Ladda in användare från csv-filen igen
-var loadedCsvLines = File.ReadAllLines(csvPath);
-List<User> usersFromCsv = loadedCsvLines.Select(line =>
-{
-    var parts = line.Split(',');
-    return new User()
-    {
-        FirstName = parts[0],
-        LastName = parts[1],
-        DateOfBirth = DateOnly.Parse(parts[2]),
-        LastLogin = DateTime.Parse(parts[3]),
-        Country = parts[4],
-        DataStored = int.Parse(parts[5]),
-        Email = parts[6]
-    };
-}).ToList();
 
 // FILTERING
 
 // 1a. Använd Where() för att sortera ut alla användare i listan som kommer från exempelvis "Sweden".
-List<User> usersFromSweden = allUsers.Where(user => user.Country == "Sweden").ToList();
 
 // 1b. Skriv ut dem i konsolen med allUsers.Foreach(). Fortsätt skriva ut resultatet på liknande säät
 // i kommande övningar också.
-usersFromSweden.ForEach(user =>
-    Console.WriteLine($"{user.FullName}, {user.Country}, {user.Email}")
-);
 
 // 2. Använd Where() för att hitta alla användare vars efternamn börjar på "S".
-List<User> usersWithLastNameS = allUsers
-    .Where(user => user.LastName.StartsWith("B"))
-    .ToList();
 
-
-// 2b. Använd Where() för att hitta alla användare som loggat in den senaste veckan. Skriv ut dem i konsolen.
-DateTime oneWeekAgo = DateTime.Now - TimeSpan.FromDays(7);
-usersWithLastNameS
-    .Where(user => user.LastLogin >= oneWeekAgo)
-    .ToList().ForEach(user =>
-    Console.WriteLine($"{user.FullName}, Last Login: {user.LastLogin}"));
+// 2b. Bland dem, använd Where() för att hitta alla användare som loggat in den senaste veckan. Skriv ut dem i konsolen.
 
 
 // SORTING
 
 // 3. Ta ut alla användare över 65 år och använd OrderBy() för att sortera användarna i listan efter deras förnamn.
 // Tänk på hur du kan räkna ut åldern med hjälp av DateOfBirth.
-DateTime today = DateTime.Now;
-allUsers
-    .Where(user => user.Age > 65)
-    .OrderBy(user => user.FirstName)
-    .ToList().ForEach(user =>
-    Console.WriteLine($"{user.FullName}, Age: {user.Age}"));
-
-
 
 // 4. Använd OrderByDescending() och FirstOrDefault() för att hitta den användare som har mest DataStored.
-
 
 // 5. Använd OrderBy() och ThenBy() för att sortera användare efter land och sedan efter efternamn.
 
@@ -78,12 +33,10 @@ allUsers
 
 // 6. Använd Select() för att skapa en ny lista innehållandes bara användarnas email.
 
-
 // 7. Använd Select() för att skapa en lista av anonyma objekt med FirstName och Email.
-// LITE EXTRA KLURIG KANSKE! Hoppa över om du inte känner dig redo. (Vad är ens anonyma objekt liksom?)
+// LITE EXTRA KLURIG KANSKE! Hoppa över om du inte vet vad som menas. (Vad är ens anonyma objekt liksom?)
 
-
-// 8. Använd Where() och Select() för att få en lista med e-postadresser från användare som har lagrat mer än 5000 dataenheter.
+// 8. Använd Where() och Select() för att få en lista med e-postadresser från användare som har lagrat mer än 5000 MB.
 
 
 // QUANTIFIERS
@@ -93,8 +46,8 @@ allUsers
 
 // 10. Använd All() för att kontrollera om alla användare har en giltig e-postadress (innehåller '@').
 
-
 // 11. Använd Select() och Contains() för att kontrollera om det finns någon användare med förnamnet "Anna".
+
 // 11b. Detta är inte jättebra rent minnes- och prestandamässigt. Varför inte tror du och vad skulle ett 
 // bättre alternativ vara?
 
@@ -103,10 +56,6 @@ allUsers
 
 // 12. Ta fram en lista på alla unika länder som våra användare kommer från.
 // Tips: Använd först Select() för att göra en ny lista med bara länder. Använd sen Distinct().
-var uniqueCountries = allUsers
-    .Select(user => user.Country)
-    .Distinct()
-    .ToList();
 
 
 // ELEMENTS
@@ -138,14 +87,9 @@ var uniqueCountries = allUsers
 
 // 21. Använd Aggregate() för att beräkna den totala mängden lagrad data av alla användare (int).
 // Tips: Aggregate använder sig av en Func<int, int, int> där det första int är ackumulatorn och det andra är värdet från varje element i listan och den sista inten är det som returneras och blir den nya ackumulatorn.
-var totalDataStored = allUsers
-    .Sum(user => user.DataStored);
 
 
 // 22. Använd Select() och Aggregate() för att sammanfoga alla användares fullständiga namn till en enda sträng.
-var allNames = allUsers
-    .Select(user => user.FullName)
-    .Aggregate((current, next) => current + ", " + next);
 
 
 // PARTITIONING
@@ -171,7 +115,7 @@ var allNames = allUsers
 
 // 28. Hur kan du ta reda på vilket land som har användare med högst totala DataStored?
 //Alltså, räkna ihop den totala DataStored per land och skriv ut det land som ligger högst.
-//Använd dig av så mkt LINQ som möjligt, ex Sum() och Max().  (Hint: Select() behövs också...)
+//Använd dig av så mkt LINQ som möjligt, ex empelvis GroupBy(), Select(), OrderByDescending() och FirstOrDefault().
 
 
 // STOR DATAKÄLLA!
