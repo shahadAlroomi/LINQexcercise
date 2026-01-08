@@ -46,10 +46,15 @@ var usersOver65 = allUsers.Where(over65 => over65.Age > 65).OrderBy(byFirstName 
 
 var userDate = allUsers.OrderByDescending(s => s.DataStored ).FirstOrDefault();
 
-Console.WriteLine(userDate.FullName  +"Data Stored :"+  userDate.DataStored);
+//Console.WriteLine(userDate.FullName  +"Data Stored :"+  userDate.DataStored);
 
 
 // 5. Använd OrderBy() och ThenBy() för att sortera användare efter land och sedan efter efternamn.
+
+var sortUser = allUsers.OrderBy(u => u.Country ).ThenBy(u => u.LastName).ToList();
+
+sortUser.ForEach(u => Console.WriteLine("Name : " + u.FullName + "Country :"+ u.Country));
+
 
 
 // PROJECTION:
