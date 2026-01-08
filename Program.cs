@@ -4,6 +4,8 @@
 // Vi kommer använda denna lista för att utföra LINQ-övningar på dem.
 // Titta i User.cs för att se hur User-klassen är uppbyggd och vilka properties den har.
 
+using System.ComponentModel.DataAnnotations;
+
 List<User> allUsers = User.GetRandomListOfUsers(10000);
 
 
@@ -38,9 +40,14 @@ var userInLastWeek = allUsers.Where(LastWeek => LastWeek.LastLogin >= DateTime.N
 
 var usersOver65 = allUsers.Where(over65 => over65.Age > 65).OrderBy(byFirstName => byFirstName.FirstName).ToList();
 
-usersOver65.ForEach(over65 => Console.WriteLine("Name: "+ over65.FullName +" age : "+ over65.Age ));
+//usersOver65.ForEach(over65 => Console.WriteLine("Name: "+ over65.FullName +" age : "+ over65.Age ));
 
 // 4. Använd OrderByDescending() och FirstOrDefault() för att hitta den användare som har mest DataStored.
+
+var userDate = allUsers.OrderByDescending(s => s.DataStored ).FirstOrDefault();
+
+Console.WriteLine(userDate.FullName  +"Data Stored :"+  userDate.DataStored);
+
 
 // 5. Använd OrderBy() och ThenBy() för att sortera användare efter land och sedan efter efternamn.
 
