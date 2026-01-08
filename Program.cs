@@ -27,7 +27,7 @@ var userNameStartWithS =allUsers.Where(n => n.LastName.StartsWith("S")).ToList()
 // 2b. Bland dem, använd Where() för att hitta alla användare som loggat in den senaste veckan. Skriv ut dem i konsolen.
 var userInLastWeek = allUsers.Where(LastWeek => LastWeek.LastLogin >= DateTime.Now.AddDays(-7)).ToList();
 
-userInLastWeek.ForEach(LastWeek =>Console.WriteLine("Användare name: " + LastWeek.FullName + " som har loggat in "+ LastWeek.LastLogin));
+// userInLastWeek.ForEach(LastWeek =>Console.WriteLine("Användare name: " + LastWeek.FullName + " som har loggat in "+ LastWeek.LastLogin));
 
 
 
@@ -35,6 +35,10 @@ userInLastWeek.ForEach(LastWeek =>Console.WriteLine("Användare name: " + LastWe
 
 // 3. Ta ut alla användare över 65 år och använd OrderBy() för att sortera användarna i listan efter deras förnamn.
 // Tänk på hur du kan räkna ut åldern med hjälp av DateOfBirth.
+
+var usersOver65 = allUsers.Where(over65 => over65.Age > 65).OrderBy(byFirstName => byFirstName.FirstName).ToList();
+
+usersOver65.ForEach(over65 => Console.WriteLine("Name: "+ over65.FullName +" age : "+ over65.Age ));
 
 // 4. Använd OrderByDescending() och FirstOrDefault() för att hitta den användare som har mest DataStored.
 
