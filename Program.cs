@@ -5,6 +5,7 @@
 // Titta i User.cs för att se hur User-klassen är uppbyggd och vilka properties den har.
 
 using System.ComponentModel.DataAnnotations;
+using System.Security;
 
 List<User> allUsers = User.GetRandomListOfUsers(10000);
 
@@ -53,13 +54,17 @@ var userDate = allUsers.OrderByDescending(s => s.DataStored ).FirstOrDefault();
 
 var sortUser = allUsers.OrderBy(u => u.Country ).ThenBy(u => u.LastName).ToList();
 
-sortUser.ForEach(u => Console.WriteLine("Name : " + u.FullName + "Country :"+ u.Country));
+//sortUser.ForEach(u => Console.WriteLine("Name : " + u.FullName + "Country :"+ u.Country));
 
 
 
 // PROJECTION:
 
 // 6. Använd Select() för att skapa en ny lista innehållandes bara användarnas email.
+
+var userEmail = allUsers.Select(u => u.Email).ToList();
+
+userEmail.ForEach(email => Console.WriteLine(email));
 
 // 7. Använd Select() för att skapa en lista av anonyma objekt med FirstName och Email.
 // LITE EXTRA KLURIG KANSKE! Hoppa över om du inte vet vad som menas. (Vad är ens anonyma objekt liksom?)
